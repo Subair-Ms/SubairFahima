@@ -3,124 +3,203 @@ const weddingDate = new Date("August 23, 2026 11:30:00").getTime();
 
 function updateCountdown() {
 
-    const now = new Date().getTime();
 
-    const distance = weddingDate - now;
+const now = new Date().getTime();
+const distance = weddingDate - now;
 
-    if (distance < 0) {
+if (distance < 0) {
 
-        document.getElementById("countdown").innerHTML =
-            "<h2>💖 Alhamdulillah! Nikkah Day Has Arrived 💖</h2>";
+    document.getElementById("countdown").innerHTML =
+        "<h2>💖 Alhamdulillah! Nikkah Day Has Arrived 💖</h2>";
 
-        return;
-    }
+    return;
+}
 
-    const days = Math.floor(
-        distance / (1000 * 60 * 60 * 24)
+const days = Math.floor(
+    distance / (1000 * 60 * 60 * 24)
+);
+
+const hours = Math.floor(
+    (distance % (1000 * 60 * 60 * 24)) /
+    (1000 * 60 * 60)
+);
+
+const minutes = Math.floor(
+    (distance % (1000 * 60 * 60)) /
+    (1000 * 60)
+);
+
+const seconds = Math.floor(
+    (distance % (1000 * 60)) /
+    1000
+);
+
+document.getElementById("days").innerHTML = days;
+document.getElementById("hours").innerHTML = hours;
+document.getElementById("minutes").innerHTML = minutes;
+document.getElementById("seconds").innerHTML = seconds;
+
+// Journey Star Progress
+
+const star =
+    document.getElementById(
+        "journeyStar"
     );
 
-    const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) /
-        (1000 * 60 * 60)
-    );
+if (star) {
 
-    const minutes = Math.floor(
-        (distance % (1000 * 60 * 60)) /
-        (1000 * 60)
-    );
+    const startDate =
+        new Date(
+            "January 1, 2026 00:00:00"
+        ).getTime();
 
-    const seconds = Math.floor(
-        (distance % (1000 * 60)) /
-        1000
-    );
+    const totalDuration =
+        weddingDate - startDate;
 
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
+    const elapsed =
+        now - startDate;
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                elapsed / totalDuration,
+                1
+            )
+        );
+
+    star.style.left =
+        (progress * 100) + "%";
+}
+
+
 }
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-
 // Fade-in animation on scroll
-const observer = new IntersectionObserver((entries) => {
+const observer =
+new IntersectionObserver(
+(entries) => {
 
-    entries.forEach(entry => {
 
-        if (entry.isIntersecting) {
+entries.forEach(entry => {
 
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0px)";
-        }
+    if (
+        entry.isIntersecting
+    ) {
 
-    });
+        entry.target.style.opacity =
+            "1";
 
-}, {
-    threshold: 0.15
-});
+        entry.target.style.transform =
+            "translateY(0px)";
+    }
 
-document.querySelectorAll(".card, .section, .hero-image").forEach(el => {
-
-    el.style.opacity = "0";
-    el.style.transform = "translateY(40px)";
-    el.style.transition = "all 0.8s ease";
-
-    observer.observe(el);
 });
 
 
-// Floating title effect
-const title = document.querySelector(".logo");
+},
+{
+threshold: 0.15
+}
+);
+
+document
+.querySelectorAll(
+".card, .section, .hero-image"
+)
+.forEach(el => {
+
+
+el.style.opacity = "0";
+
+el.style.transform =
+    "translateY(40px)";
+
+el.style.transition =
+    "all 0.8s ease";
+
+observer.observe(el);
+
+
+});
+
+// Floating logo effect
+const title =
+document.querySelector(
+".logo"
+);
 
 if (title) {
 
-    let direction = 1;
 
-    setInterval(() => {
+let direction = 1;
 
-        const current = parseInt(
-            title.dataset.move || "0"
+setInterval(() => {
+
+    const current =
+        parseInt(
+            title.dataset.move ||
+            "0"
         );
 
-        let next = current + direction;
+    let next =
+        current + direction;
 
-        if (next > 8) direction = -1;
-        if (next < -8) direction = 1;
+    if (next > 8)
+        direction = -1;
 
-        title.dataset.move = next;
+    if (next < -8)
+        direction = 1;
 
-        title.style.transform =
-            `translateY(${next}px)`;
+    title.dataset.move =
+        next;
 
-    }, 80);
+    title.style.transform =
+        `translateY(${next}px)`;
+
+}, 80);
+
+
 }
 
+// Smooth scroll
+document
+.querySelectorAll(
+'a[href^="#"]'
+)
+.forEach(anchor => {
 
-// Smooth button click
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-
-    anchor.addEventListener("click", function(e) {
+anchor.addEventListener(
+    "click",
+    function(e) {
 
         e.preventDefault();
 
         const target =
             document.querySelector(
-                this.getAttribute("href")
+                this.getAttribute(
+                    "href"
+                )
             );
 
         if (target) {
 
             target.scrollIntoView({
-                behavior: "smooth"
+                behavior:
+                "smooth"
             });
+
         }
 
-    });
+    }
+);
+
 
 });
 
 console.log(
-    "Nikkah Invitation Loaded Successfully ❤️"
+"Nikkah Invitation Loaded Successfully ❤️"
 );
