@@ -1,78 +1,121 @@
 // Wedding Date
 const weddingDate = new Date("August 23, 2026 11:30:00").getTime();
 
-function updateCountdown() {
+function startOpeningReveal() {
+    const openingMask = document.querySelector('.opening-mask');
+    const pageShell = document.querySelector('.page-shell');
+    const openButton = document.getElementById('openInvitation');
 
+    if (!openingMask || !pageShell) return;
+    if (openingMask.classList.contains('opening-in-progress')) return;
 
-const now = new Date().getTime();
-const distance = weddingDate - now;
+    openingMask.classList.add('opening-in-progress');
+    if (openButton) {
+        openButton.disabled = true;
+        openButton.setAttribute('aria-busy', 'true');
+    }
 
-if (distance < 0) {
+    document.body.classList.add('opening-active');
+    openingMask.classList.remove('is-hidden');
+    openingMask.classList.add('opened');
+    pageShell.classList.remove('revealed');
 
-    document.getElementById("countdown").innerHTML =
-        "<h2>💖 Alhamdulillah! Nikkah Day Has Arrived 💖</h2>";
+    window.setTimeout(() => {
+        openingMask.classList.add('is-hidden');
+        openingMask.classList.remove('opened');
+        openingMask.classList.remove('opening-in-progress');
+        document.body.classList.remove('opening-active');
+        pageShell.classList.add('revealed');
 
-    return;
+        if (openButton) {
+            openButton.disabled = false;
+            openButton.removeAttribute('aria-busy');
+        }
+
+        const homeSection = document.getElementById('home');
+        if (homeSection) {
+            window.setTimeout(() => {
+                homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }, 1000);
 }
 
-const days = Math.floor(
-    distance / (1000 * 60 * 60 * 24)
-);
+function setupOpeningTrigger() {
+    const cta = document.querySelector('.opening-mask__cta');
 
-const hours = Math.floor(
-    (distance % (1000 * 60 * 60 * 24)) /
-    (1000 * 60 * 60)
-);
+    if (!cta) return;
 
-const minutes = Math.floor(
-    (distance % (1000 * 60 * 60)) /
-    (1000 * 60)
-);
+    cta.addEventListener('click', () => {
+        startOpeningReveal();
+    });
+}
 
-const seconds = Math.floor(
-    (distance % (1000 * 60)) /
-    1000
-);
+if (document.readyState === 'loading') {
+    window.addEventListener('load', setupOpeningTrigger);
+} else {
+    setupOpeningTrigger();
+}
 
-document.getElementById("days").innerHTML = days;
-document.getElementById("hours").innerHTML = hours;
-document.getElementById("minutes").innerHTML = minutes;
-document.getElementById("seconds").innerHTML = seconds;
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
 
-// Journey Star Progress
+    if (distance < 0) {
+        const entryDays = document.getElementById("entryDays");
+        const entryHours = document.getElementById("entryHours");
+        const entryMinutes = document.getElementById("entryMinutes");
+        const entrySeconds = document.getElementById("entrySeconds");
+        const message = document.getElementById("openingMessage");
+        const hearts = document.querySelector(".heart-popper");
 
-const star =
-    document.getElementById(
-        "journeyStar"
+        if (entryDays) entryDays.textContent = "0";
+        if (entryHours) entryHours.textContent = "0";
+        if (entryMinutes) entryMinutes.textContent = "0";
+        if (entrySeconds) entrySeconds.textContent = "0";
+        if (message) message.textContent = "Alhamdulillah, Nikkah Day has arrived";
+        if (hearts) hearts.classList.add("pop");
+        return;
+    }
+
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
     );
 
-if (star) {
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+    );
 
-    const startDate =
-        new Date(
-            "January 1, 2026 00:00:00"
-        ).getTime();
+    const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
 
-    const totalDuration =
-        weddingDate - startDate;
+    const seconds = Math.floor(
+        (distance % (1000 * 60)) /
+        1000
+    );
 
-    const elapsed =
-        now - startDate;
+    const entryDays = document.getElementById("entryDays");
+    const entryHours = document.getElementById("entryHours");
+    const entryMinutes = document.getElementById("entryMinutes");
+    const entrySeconds = document.getElementById("entrySeconds");
 
-    const progress =
-        Math.max(
-            0,
-            Math.min(
-                elapsed / totalDuration,
-                1
-            )
-        );
+    if (entryDays) entryDays.textContent = days;
+    if (entryHours) entryHours.textContent = hours;
+    if (entryMinutes) entryMinutes.textContent = minutes;
+    if (entrySeconds) entrySeconds.textContent = seconds;
 
-    star.style.left =
-        (progress * 100) + "%";
-}
+    const star = document.getElementById("journeyStar");
+    if (star) {
+        const startDate = new Date("January 1, 2026 00:00:00").getTime();
+        const totalDuration = weddingDate - startDate;
+        const elapsed = Math.max(0, Math.min(now - startDate, totalDuration));
+        const progress = totalDuration > 0 ? elapsed / totalDuration : 0;
 
-
+        star.style.left = `${progress * 100}%`;
+    }
 }
 
 setInterval(updateCountdown, 1000);

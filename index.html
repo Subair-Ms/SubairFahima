@@ -19,6 +19,52 @@
     />
   </head>
   <body>
+    <div class="opening-mask" aria-hidden="true">
+      <div class="opening-mask__overlay"></div>
+      <div class="opening-mask__stage">
+        <span class="opening-mask__spotlight" aria-hidden="true"></span>
+        <div class="opening-mask__arch"></div>
+        <div class="opening-mask__curtain opening-mask__curtain--left"></div>
+        <div class="opening-mask__curtain opening-mask__curtain--right"></div>
+        <div class="opening-mask__panel">
+          <div class="opening-mask__portrait">
+            <img src="assets/couple-photo.jpg" alt="The bride and groom" />
+          </div>
+          <div class="opening-mask__countdown" aria-label="Countdown to the wedding">
+            <div class="opening-mask__countdown-card">
+              <span id="entryDays">0</span>
+              <p>Days</p>
+            </div>
+            <div class="opening-mask__countdown-card">
+              <span id="entryHours">0</span>
+              <p>Hours</p>
+            </div>
+            <div class="opening-mask__countdown-card">
+              <span id="entryMinutes">0</span>
+              <p>Minutes</p>
+            </div>
+            <div class="opening-mask__countdown-card">
+              <span id="entrySeconds">0</span>
+              <p>Seconds</p>
+            </div>
+          </div>
+          <div class="opening-mask__journey" aria-hidden="true">
+            <div class="journey-track">
+              <div class="journey-line">
+                <div id="journeyStar" class="journey-star">✨</div>
+              </div>
+            </div>
+          </div>
+          <button id="openInvitation" class="opening-mask__cta btn" type="button" onclick="startOpeningReveal()">View Invitation</button>
+          <p class="opening-mask__intro" id="openingMessage">Tap to unfold the event details.</p>
+          <div class="heart-popper" aria-hidden="true"></div>
+        </div>
+        <span class="opening-mask__sparkle opening-mask__sparkle--one"></span>
+        <span class="opening-mask__sparkle opening-mask__sparkle--two"></span>
+        <span class="opening-mask__sparkle opening-mask__sparkle--three"></span>
+      </div>
+    </div>
+
     <div class="scroll-progress" aria-hidden="true">
       <div class="scroll-progress__bar"></div>
     </div>
@@ -28,13 +74,6 @@
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
       </div>
-      <nav class="top-nav" aria-label="Main Navigation">
-        <a href="#home">Home</a>
-        <a href="#details">Details</a>
-        <a href="#countdown">Countdown</a>
-        <a href="#parents">Parents</a>
-        <a href="#dua">Dua</a>
-      </nav>
 
       <div class="mosque-silhouette" aria-hidden="true">
         <svg viewBox="0 0 800 400" role="presentation">
@@ -63,13 +102,6 @@
           <p class="hero-text">
             With hearts full of gratitude, we joyfully invite you to share in the blessings of our nikkah ceremony.
           </p>
-          <a href="#details" class="btn">View Invitation</a>
-        </div>
-
-        <div class="hero-visual" data-animate>
-          <div class="photo-frame">
-            <img src="assets/couple-photo.jpg" alt="The bride and groom" />
-          </div>
         </div>
       </header>
 
@@ -103,59 +135,6 @@
         </div>
       </section>
 
-      <section class="section countdown-section" id="countdown" data-animate>
-        <div class="section-heading">
-          <h2>Countdown to Nikkah</h2>
-         <div class="lantern-progress">
-
-<div class="journey-track">
-
-<div class="journey-line">
-<div id="journeyStar" class="journey-star">✨</div>
-</div>
-
-</div>
-
-
-</div>
-        </div>
-        <div class="countdown-ambient" aria-hidden="true">
-          <div class="particle-layer">
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="vine vine-left"></div>
-          <div class="vine vine-right"></div>
-          <span class="bloom bloom-one"></span>
-          <span class="bloom bloom-two"></span>
-          <span class="bloom bloom-three"></span>
-          <span class="leaf leaf-one"></span>
-          <span class="leaf leaf-two"></span>
-          <span class="leaf leaf-three"></span>
-          <div class="petal-layer">
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-        </div>
-        <div class="countdown-grid">
-          <div class="count-box">
-            <span id="days">0</span>
-            <p>Days</p>
-          </div>
-          <div class="count-box">
-            <span id="hours">0</span>
-            <p>Hours</p>
-          </div>
-          <div class="count-box">
-            <span id="minutes">0</span>
-            <p>Minutes</p>
-          </div>
-          <div class="count-box">
-            <span id="seconds">0</span>
-            <p>Seconds</p>
-          </div>
-        </div>
-      </section>
 
       <section class="section parents-section" id="parents" data-animate>
         <div class="section-heading">
